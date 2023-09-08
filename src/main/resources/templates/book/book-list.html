@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header(page='book')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1>Книги</h1>
+        <hr>
+        <table class="table table-border">
+            <thead>
+            <tr>
+                <th>№ п/п</th>
+                <th>Название</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+        </table>
+        <div class="scrollable" style="height:400px; overflow: scroll;">
+            <table class="table table-bordered table-sm">
+                <tbody class="table-light">
+                <tr th:each="book, iStat: ${books}">
+                    <td th:text="${iStat.index+1}"></td>
+                    <td>
+                        <a th:href="@{'/book/details/' + ${book.id}+'?anchor=book-'+${book.id}}"
+                           th:id="@{'book-'+${book.id}}"> [[${book.name}]] </a>
+                    </td>
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{'/book/delete/' + ${book.id}}" class="btn btn-danger"> Удалить </a>
+                        <a th:href="@{'/book/update/' + ${book.id}}" class="btn btn-info"> Обновить </a>
+                    </td>
+                </tr>
+                <tr th:if="${books == null}">
+                    <td colspan="2">Список пуст</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+                <hr>
+                <h3 sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/book/new}" class="btn btn-success"> Добавить книгу </a>
+                    <a th:href="@{/book/find}" class="btn btn-success"> Найти книгу </a>
+                    <a th:href="@{/book/inventory}" class="btn btn-success"> Инвентаризация </a>
+                    <a class="btn btn-success" th:href="@{/}"> На домашнюю </a>
+                </h3>
+            </div>
+        </div>
+        <footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>

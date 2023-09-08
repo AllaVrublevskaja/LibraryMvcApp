@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- подставляем фрагмент общего head -->
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header}"></header>
+<div class="d-flex align-items-center justify-content-center vh-100"
+     style="background-image: url(/images/book2.jpg);
+      background-repeat: no-repeat; background-size: cover;">
+
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1> Книга – чистейшая сущность человеческой души.</h1>
+        <div style="text-align: right; font-style: italic; font-weight:bold;">
+            <h3 style="font-size: medium; margin-bottom: 0px ">Томас Карлейль,</h3>
+            <span style="font-size: small; ">английский писатель, философ, историк</span>
+        </div>
+        <h2 class="mt-lg-5">Добро пожаловать в этот прекрасный мир</h2>
+    </div>
+</div>
+<footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{layout/user-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/user-layout.html :: view-header(page='user')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+<!--        форма вывода всех книг одновременно-->
+        <hr>
+        <div style="display: inline-block;" th:height="300"
+             class="card bg-light m-1 text-success border-dark mb-1"
+             th:each="book, iStat: ${books}">
+
+            <a th:href="@{'/user/details/' + ${book.id}}"
+               th:if="${book.imageFile == null}">
+                <img class="card-img-top" th:height="200"
+                     alt="Image"
+                     th:src="@{/images/book2.jpg}">
+            </a>
+            <a th:href="@{'/user/details/' + ${book.id}}"
+               th:if="${book.imageFile != null}">
+                <img class="card-img-top" th:height="200"
+                     alt="Image"
+                     th:src="@{'data:image/jpeg;base64,' + ${book.imageFile}}">
+            </a>
+
+            <p class="card-title">[[${book.name}]]</p>
+        </div>
+        <hr>
+        <h3>
+            <a th:href="@{/user/find}" class="btn btn-success"> Найти книгу </a>
+        </h3>
+    </div>
+</div>
+<footer th:insert="~{layout/user-layout.html :: footer}"></footer>
+</body>
+</html>

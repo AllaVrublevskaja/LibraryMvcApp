@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{layout/user-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/user-layout.html :: view-header(page='user')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1>Критерии поиска:</h1>
+        <hr>
+        <!-- форма поиска книги -->
+        <form method="get" th:action="@{/user/found}" th:object="${findBook}">
+            <table>
+                <tr>
+                    <td> Название:</td>
+                    <td> Автор:</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" id="title" th:field="*{title}">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" id="author" th:field="*{author}">
+                    </td>
+                    <td>
+                        <button class="btn btn-success">Найти</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <hr>
+    </div>
+</div>
+<footer th:insert="~{layout/user-layout.html :: footer}"></footer>
+</body>
+</html>

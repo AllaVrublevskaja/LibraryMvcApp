@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{layout/user-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/user-layout.html :: view-header(page='user')}"></header>
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+<!--        Форма вывода всех  книг в виде карусели -->
+        <hr>
+        <div id="carouselExample" class="carousel slide carousel-fade carousel-dark"
+             data-bs-ride="carousel" data-bs-interval="false">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block" th:height="300" th:width="250"
+                         alt="Image"
+                         th:src="@{/images/book2.jpg}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h3>Каталог книг</h3>
+                    </div>
+                </div>
+                <div th:each="book, iStat: ${books}">
+                    <div class="carousel-item">
+                        <a th:href="@{'/user/details/' + ${book.id}+'?anchor=book-'+${book.id}}"
+                           th:id="@{'book-'+${book.id}}">
+                            <img th:if="${book.imageFile == null}"
+                                 class="d-block"
+                                 alt="Image" th:height="300" th:width="250"
+                                 th:src="@{/images/book2.jpg}">
+                            <img th:unless="${book.imageFile == null}"
+                                 class="d-block "
+                                 alt="Image" th:height="300" th:width="250"
+                                 th:src="@{'data:image/jpeg;base64,' + ${book.imageFile}}">
+                        </a>
+                        <h5 style="font-family: sans-serif; color: olivedrab">
+                            Книга [[${iStat.index}+1]] из [[${iStat.size}]]
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h3>
+            <a th:href="@{/user/find}" class="btn btn-success"> Найти книгу </a>
+        </h3>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+<footer th:insert="~{layout/user-layout.html :: footer}"></footer>
+</body>
+</html>

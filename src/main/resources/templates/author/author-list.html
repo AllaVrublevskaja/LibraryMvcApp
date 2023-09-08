@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header(page='author')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1>Авторы</h1>
+        <hr>
+        <table class="table table-border table-sm">
+            <thead>
+            <tr>
+                <th>№ п/п</th>
+                <th>Полное Имя</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+        </table>
+        <div class="scrollable" style="height:400px; overflow: scroll;">
+            <table class="table table-border table-sm">
+                <!-- тело таблицы -->
+                <tbody class="table-light">
+                <tr th:each="author: ${authors}">
+                    <td th:text="${authorStat.index+1}"></td>
+                    <td>
+                        <a th:href="@{'/author/details/' + ${author.id}+'?anchor=author-'+${author.id}}"
+                           th:id="@{'author-'+${author.id}}">
+                            [[${author.getFullName()}]]
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="@{'/author/delete/' + ${author.id}}" class="btn btn-danger"> Удалить </a>
+                        <a th:href="@{'/author/update/' + ${author.id}}" class="btn btn-info"> Обновить </a>
+                    </td>
+                </tr>
+                <tr th:if="${authors == null}">
+                    <td colspan="3">Список пуст</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <h3>
+            <a th:href="@{/author/new}" class="btn btn-success"> Добавить автора </a>
+            <a class="btn btn-success" th:href="@{/}"> На домашнюю </a>
+        </h3>
+    </div>
+</div>
+<footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>

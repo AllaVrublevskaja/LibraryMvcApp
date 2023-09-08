@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- подставляем фрагмент общего head -->
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header}"></header>
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1>Инветаризация</h1>
+        <form method="post" th:action="@{/book/inventory}" th:object="${inventoryForm}">
+            <table class="table table-bordered table-sm">
+                <tr class="table-active">
+                    <td style="font-weight: bold"> на дату:</td>
+                    <td>
+                        <input type="date" name="image"
+                               class="form-control"
+                               id="input-date"
+                               th:field="*{date}">
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <table class="table table-bordered table-sm">
+                <thead>
+                <tr class="table-active">
+                    <th> № п/п</th>
+                    <th> Название книги</th>
+                    <th> Дата инвенаризации</th>
+                    <th> Количество экземпляров</th>
+                </tr>
+                </thead>
+            </table>
+            <div class="scrollable" style="height:400px; overflow: scroll;">
+                <table class="table table-bordered table-sm">
+                    <tbody>
+                    <tr class="table-active" th:each="book, iStat: *{books}">
+                        <td th:text="${iStat.index+1}"></td>
+                        <td>
+                            <a th:href="@{'/book/details/' + ${book.id}}"> [[${book.name}]]</a>
+                        </td>
+                        <td>[[${book.dateInventoryFormatted()}]]</td>
+                        <td>
+                            <input type="number" class="form-control"
+                                   th:field="*{books[__${iStat.index}__].quantityInventory}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-success" name="action" value="Сохранить"> Сохранить</button>
+            <button type="submit" class="btn btn-success" name="action" value="Очистить список"> Очистить список
+            </button>
+            <a th:href="@{/book}" class="btn btn-danger"> Отменить </a>
+        </form>
+    </div>
+</div>
+<footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>

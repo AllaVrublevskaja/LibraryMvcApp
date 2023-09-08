@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header(page='book')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1>Добавить книгу</h1>
+        <hr>
+        <!-- форма добавления книги -->
+        <form th:action="@{/book/new}" method="post" th:object="${bookForm}" enctype="multipart/form-data">
+
+            <!-- title книги -->
+            <label for="title" style="font-weight: bold">Название книги: </label>
+            <input type="text"
+                   class="form-control"
+                   id="title"
+                   placeholder="Название"
+                   required minlength="1"
+                   th:field="*{title}">
+            <hr>
+            <table class="table table-bordered">
+                <tr class="table-active" style="font-weight: bold">
+                    <td><label for="code">Шифр книги: </label></td>
+                    <td><label for="year" style="font-weight: bold">Год выпуска: </label></td>
+                    <td><label for="pages" style="font-weight: bold"> Cтраниц: </label></td>
+                    <td><label for="quantityInstances" style="font-weight: bold"> Экземпляров: </label></td>
+                </tr>
+                <tr class="table-active">
+                    <td><input type="text"
+                               class="form-control"
+                               id="code"
+                               placeholder="Шифр книги"
+                               required minlength="1"
+                               th:field="*{code}">
+                    </td>
+                    <td>
+                        <input type="number" style="font-family: sans-serif; color: olivedrab"
+                               class="form-control"
+                               id="year"
+                               placeholder="Год выпуска"
+                               min=1700
+                               required minlength="1"
+                               th:max="${maxYear}"
+                               th:field="*{year}">
+                    </td>
+                    <td>
+                        <input type="number" style="font-family: sans-serif; color: olivedrab"
+                               class="form-control"
+                               id="pages"
+                               placeholder="Страницы"
+                               required minlength="1"
+                               min="1"
+                               th:field="*{pages}">
+                    </td>
+                    <td>
+                        <input type="number" style="font-family: sans-serif; color: olivedrab"
+                               class="form-control"
+                               id="quantityInstances"
+                               placeholder="Экземпляров"
+                               required minlength="1"
+                               min=1
+                               th:field="*{quantityInstances}">
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <span style="font-weight: bold">Издательство: </span>
+            <select th:field="*{publicationId}">
+                <option th:each="publication: ${publications}" th:value="${publication.id}">
+                    [[${publication.name}]]
+                </option>
+            </select>
+
+            <span style="font-weight: bold">Жанр: </span>
+            <select th:field="*{genreId}">
+                <option th:each="genre: ${genres}" th:value="${genre.id}">
+                    [[${genre.name}]]
+                </option>
+            </select>
+            <hr>
+            <!-- изображение книги -->
+            <table class="table table-bordered">
+                <tr class="table-active">
+                    <td>
+                        <img class="img-fluid" width="50" height="75"
+                             th:if="*{imageFile != null}"
+                             th:src="@{'data:image/jpeg;base64,' + *{imageFile}}" alt="Image">
+                    </td>
+                    <td>
+                        <label for="imageF" style="font-weight: bold">Изображение: </label>
+                        <input type="file" name="file"
+                               class="form-control"
+                               id="imageF">
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <span style="font-weight: bold">Авторы (выберите из списка) :</span>
+            <span style="font-family: sans-serif; color: olivedrab" th:text="*{loop}"></span>
+
+            <select th:field="*{authorId}">
+                <option value="">Выберите автора</option>
+                <option th:each="node : ${authors}" th:value="${node.id}">
+                    [[${node.getFullName}]]
+                </option>
+            </select>
+
+            <button type="submit" class="btn btn-success" name="action" value="Добавить автора">Добавить автора</button>
+            <hr>
+
+            <button type="submit" class="btn btn-success" name="action" value="Сохранить">Сохранить</button>
+            <a class="btn btn-danger" th:href="@{/book}">Отменить</a>
+        </form>
+    </div>
+</div>
+<footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>
+

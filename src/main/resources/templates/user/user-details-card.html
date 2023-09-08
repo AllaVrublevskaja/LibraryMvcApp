@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/user-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/user-layout.html :: view-header(page='user')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <p th:if="${book == null}" class="alert alert-danger"> Книга с заданным id не существует</p>
+
+        <div class="card mb-3 text-bg-light" style="max-width: 100%;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img th:if="${book.imageFile == null}"
+                         class="card-fluid" th:height="250" th:width="180"
+                         alt="Image"
+                         th:src="@{/images/book2.jpg}">
+                    <img th:unless="${book.imageFile == null}"
+                         class="card-fluid" th:height="250" th:width="180"
+                         alt="Image"
+                         th:src="@{'data:image/jpeg;base64,' + ${book.imageFile}}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h2 class="card-title">[[${book.name}]]</h2>
+                        <p style="font-weight: bold; font-family: sans-serif;
+                        color: olivedrab"> [[${book.genre.name}]] </p>
+                        <p style="font-weight: bold; font-family: sans-serif;
+                        color: olivedrab"> [[${book.publication.name}]]
+                            &nbsp;&nbsp; [[${book.yearRelease}]] г.
+                            &nbsp;&nbsp; [[${book.quantityPages}]] стр.</p>
+                        <p style="font-weight: bold; font-family: sans-serif;
+                        color: olivedrab">Доступно: [[${book.quantityStock}]] экз.</p>
+                        <p style="font-weight: bold;"> Авторы: </p>
+                        <dl>
+                            <dt th:each="bookAuthor : ${book.bookAuthors}">
+                            <span style="font-family: sans-serif; color: olivedrab"
+                                  th:text="${bookAuthor.author.getFullName()}">Name</span>
+                            </dt>
+                        </dl>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>
+            <a th:if="${message=='list'}" class="btn btn-success" th:href="@{/user/page}">К книгам</a>
+            <a th:if="${message=='found'}" class="btn btn-success" th:href="@{/user/found}">К книгам</a>
+        </h3>
+    </div>
+</div>
+<footer th:insert="~{layout/user-layout.html :: footer}"></footer>
+</body>
+</html>

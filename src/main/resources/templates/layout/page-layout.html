@@ -1,0 +1,58 @@
+<!-- файл с описанием основных элементов представлений (фрагментов) -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<!-- фрагмент тега head -->
+<head th:fragment="view-head">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Book Directory</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/back-styles.css}">
+</head>
+
+<body>
+
+<nav class="d-flex navbar-expand-lg navbar text-bg-info" th:fragment="view-header">
+    <a class="navbar-brand" th:href="@{/}">Каталог библиотеки</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <th:block sec:authorize="hasRole('ADMIN')">
+                <a class="nav-item nav-link "
+                   th:classappend="${page=='author'? 'active': ''}"
+                   th:href="@{/author}">Авторы</a>
+                <a class="nav-item nav-link"
+                   th:classappend="${page=='genre'? 'active': ''}"
+                   th:href="@{/genre}">Жанры</a>
+                <a class="nav-item nav-link"
+                   th:classappend="${page=='publication'? 'active': ''}"
+                   th:href="@{/public}">Издательства</a>
+                <a class="nav-item nav-link"
+                   th:classappend="${page=='book'? 'active': ''}"
+                   th:href="@{/book}">Книги</a>
+            </th:block>
+            <a class="nav-item nav-link"
+               th:classappend="${page=='user'? 'active': ''}"
+               th:href="@{/user}">Читатель</a>
+        </div>
+    </div>
+    <form sec:authorize="isAuthenticated()" class="d-flex" role="search" method="post" th:action="@{/logout}">
+        <button class="btn btn-outline-success">Выйти</button>
+    </form>
+    <form sec:authorize="!isAuthenticated()" class="d-flex" role="search" method="get" th:action="@{/login}">
+        <button class="btn btn-outline-success">Войти</button>
+    </form>
+</nav>
+
+<!-- фрагмент футера -->
+<div class="container-fluid text-center fixed-bottom text-bg-info"
+     th:fragment="footer">
+    <h5>Автор Врублевская А.В. &copy;</h5>
+</div>
+
+</body>
+</html>

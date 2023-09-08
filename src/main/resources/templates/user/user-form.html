@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block th:replace="~{layout/user-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/user-layout.html :: view-header(page='user')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1>Библиотека предлагает: </h1>
+        <hr>
+        <form th:action="@{/user}" method="post" th:object="${userBook}">
+            <div style="display: inline-block;" th:height="300"
+                 class="card bg-light m-1 text-success border-dark mb-1"
+                 th:each="book, iStat: *{books}">
+
+                <a th:href="@{'/user/details/' + ${book.id}+'?anchor=book-'+${book.id}}"
+                   th:id="@{'book-'+${book.id}}">
+                    <img th:if="${book.imageFile == null}"
+                         class="d-block"
+                         alt="Image" th:height="250" th:width="200"
+                         th:src="@{/images/book2.jpg}">
+                    <img th:unless="${book.imageFile == null}"
+                         class="d-block "
+                         alt="Image" th:height="250" th:width="200"
+                         th:src="@{'data:image/jpeg;base64,' + ${book.imageFile}}">
+                </a>
+                <h5 style="font-family: sans-serif; color: olivedrab">
+                    Книга [[${iStat.index}+1+*{bookNumber}]] из [[*{size}]]
+                </h5>
+            </div>
+            <hr>
+            <a th:href="@{/user/find}" class="btn btn-success"> Найти книгу </a>
+            <span style="font-family: sans-serif; color: olivedrab; font-weight: bold; font-size: larger;">
+                &nbsp;&nbsp;Стр. [[*{page}]] из [[*{pages}]]&nbsp;&nbsp;</span>
+            <a th:if="*{page<pages}" class="btn btn-success" th:href="@{/user/nextPage}">
+                Следуюущая страница </a>
+            <a th:if="*{page>1}" class="btn btn-success" th:href="@{/user/previewPage}">
+                Предыдущая страница </a>
+        </form>
+    </div>
+</div>
+<footer th:insert="~{layout/user-layout.html :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header(page='genre')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1>Добавить жанр</h1>
+        <hr>
+        <form method="post" th:action="@{/genre/new}" th:object="${newGenre}">
+
+            <label for="input-name">Название</label>
+            <input th:field="*{name}" id="input-name" type="text" required/>
+
+            <hr>
+            <button class="btn btn-success">Сохранить</button>
+            <a class="btn btn-danger" th:href="@{/genre}">Отменить</a>
+            <a class="btn btn-success" th:href="@{/}"> На домашнюю </a>
+
+        </form>
+    </div>
+</div>
+<footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>

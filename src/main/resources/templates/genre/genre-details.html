@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header(page='genre')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+
+        <p th:if="${genre == null}" class="alert alert-danger"> Жанр с заданным id не существует</p>
+        <table th:if="${genre != null}" class="table table-bordered">
+            <h1>Жанр: [[${genre.name}]] (id:[[${genre.id}]])</h1>
+            <hr>
+            <h5 style="font-weight: bold"> Книги:</h5>
+            <thead class="table-info">
+            <tr>
+                <th>ID</th>
+                <th>Назание</th>
+                <th>Издательство</th>
+                <th>Год издания</th>
+                <th>Автор</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book: ${genre.books}">
+                <td style="font-family: sans-serif; color: olivedrab">[[${book.id}]]</td>
+                <td style="font-family: sans-serif; color: olivedrab">[[${book.name}]]</td>
+                <td style="font-family: sans-serif; color: olivedrab">[[${book.publication.name}]]</td>
+                <td style="font-family: sans-serif; color: olivedrab">[[${book.yearRelease}]]</td>
+                <td>
+                    <ul>
+                        <li th:each="bookAuthor : ${book.bookAuthors}">
+                            <span style="font-family: sans-serif; color: olivedrab"
+                                  th:text="${bookAuthor.author.getFullName()}">Name</span>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <hr>
+        <a class="btn btn-success" th:href="@{'/genre#'+${anchor}}">К жанрам</a>
+    </div>
+</div>
+<footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>

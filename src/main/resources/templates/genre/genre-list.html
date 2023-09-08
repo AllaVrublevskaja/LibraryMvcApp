@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header(page='genre')}"></header>
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <h1>Жанры</h1>
+        <hr>
+        <table class="table table-border">
+            <thead>
+            <tr>
+                <th>№ п/п</th>
+                <th>Название</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+        </table>
+        <div class="scrollable" style="height:400px; overflow: scroll;">
+            <table class="table table-border table-sm">
+                <tbody class="table-light">
+                <tr th:each="genre: ${genres}">
+                    <td th:text="${genreStat.index+1}"></td>
+                    <td>
+                        <a th:href="@{'/genre/details/' + ${genre.id}+'?anchor=genre-'+${genre.id}}"
+                           th:id="@{'genre-'+${genre.id}}">[[${genre.name}]]</a>
+                    </td>
+                    <td>
+                        <a th:href="@{'/genre/delete/' + ${genre.id}}" class="btn btn-danger"> Удалить </a>
+                        <a th:href="@{'/genre/update/' + ${genre.id}}" class="btn btn-info"> Обновить </a>
+                    </td>
+                </tr>
+                <tr th:if="${genres == null}">
+                    <td>Список пуст</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <h3>
+            <a th:href="@{/genre/new}" class="btn btn-success"> Добавить жанр </a>
+            <a class="btn btn-success" th:href="@{/}"> На домашнюю </a>
+        </h3>
+    </div>
+</div>
+<footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>

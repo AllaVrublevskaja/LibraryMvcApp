@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- подставляем фрагмент общего head -->
+<th:block th:replace="~{layout/page-layout.html :: view-head}"/>
+<body class="class=d-flex flex-column min-vh-100 text-center bg-info p-2 text-dark bg-opacity-10">
+<header th:insert="~{layout/page-layout.html :: view-header}"></header>
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="bg-danger p-2 text-dark bg-opacity-10 shadow p-5">
+        <hr>
+        <label for="input-date" style="font-weight: bold">Введите дату инвентаризации:</label>
+        <br>
+        <input type="date" name="image"
+               class="form-control"
+               id="input-date"
+               th:field="${dateInventory}">
+        <hr>
+        <a th:href="@{/book/inventory}" class="btn btn-success"> Начать </a>
+        <a th:href="@{/book}" class="btn btn-success"> Не сейчас </a>
+    </div>
+</div>
+<footer th:insert="~{layout/page-layout.html :: footer}"></footer>
+</body>
+</html>
+</html>
+
